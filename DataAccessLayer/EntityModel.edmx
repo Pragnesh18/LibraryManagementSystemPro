@@ -1,0 +1,486 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="LMS_DatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tblAuthor">
+          <Key>
+            <PropertyRef Name="AuthorId" />
+          </Key>
+          <Property Name="AuthorId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AutherName" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="AutherEmail" Type="varchar" MaxLength="100" />
+          <Property Name="AutherConatct" Type="varchar" MaxLength="50" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblBook">
+          <Key>
+            <PropertyRef Name="BookId" />
+          </Key>
+          <Property Name="BookId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BookTitle" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="BookCategoryId" Type="int" Nullable="false" />
+          <Property Name="Price" Type="float" />
+          <Property Name="Edition" Type="int" />
+          <Property Name="Release Year" Type="varchar" MaxLength="50" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="isAvailable" Type="bit" />
+        </EntityType>
+        <EntityType Name="tblBook_Author">
+          <Key>
+            <PropertyRef Name="BookAuthorId" />
+          </Key>
+          <Property Name="BookAuthorId" Type="int" Nullable="false" />
+          <Property Name="BookId" Type="int" Nullable="false" />
+          <Property Name="AuthorId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblBook_Publisher">
+          <Key>
+            <PropertyRef Name="Book_PublisherId" />
+          </Key>
+          <Property Name="Book_PublisherId" Type="int" Nullable="false" />
+          <Property Name="BookId" Type="int" Nullable="false" />
+          <Property Name="PublisherId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblBookCategory">
+          <Key>
+            <PropertyRef Name="BookCategoryId" />
+          </Key>
+          <Property Name="BookCategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BookCategory" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="tblPublisher">
+          <Key>
+            <PropertyRef Name="PublisherId" />
+          </Key>
+          <Property Name="PublisherId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Publisher Name" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="PublisherAddress" Type="varchar" MaxLength="500" />
+          <Property Name="PublisherContact" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Ratting" Type="int" Nullable="false" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblRole">
+          <Key>
+            <PropertyRef Name="roleId" />
+          </Key>
+          <Property Name="roleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleType" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblUser">
+          <Key>
+            <PropertyRef Name="userId" />
+          </Key>
+          <Property Name="userId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ContactNumber" Type="varchar" MaxLength="50" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
+          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="RegistrationDate" Type="datetime" Nullable="false" />
+          <Property Name="NumOfBooks" Type="int" />
+          <Property Name="NumOfRe-issue" Type="int" />
+          <Property Name="roleId" Type="int" Nullable="false" />
+          <Property Name="Address" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <Association Name="FK_AuthorId">
+          <End Role="tblAuthor" Type="Self.tblAuthor" Multiplicity="1" />
+          <End Role="tblBook_Author" Type="Self.tblBook_Author" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblAuthor">
+              <PropertyRef Name="AuthorId" />
+            </Principal>
+            <Dependent Role="tblBook_Author">
+              <PropertyRef Name="AuthorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BookCategoryId">
+          <End Role="tblBookCategory" Type="Self.tblBookCategory" Multiplicity="1" />
+          <End Role="tblBook" Type="Self.tblBook" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblBookCategory">
+              <PropertyRef Name="BookCategoryId" />
+            </Principal>
+            <Dependent Role="tblBook">
+              <PropertyRef Name="BookCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bookPubId">
+          <End Role="tblPublisher" Type="Self.tblPublisher" Multiplicity="1" />
+          <End Role="tblBook_Publisher" Type="Self.tblBook_Publisher" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPublisher">
+              <PropertyRef Name="PublisherId" />
+            </Principal>
+            <Dependent Role="tblBook_Publisher">
+              <PropertyRef Name="PublisherId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_pubBookId">
+          <End Role="tblBook" Type="Self.tblBook" Multiplicity="1" />
+          <End Role="tblBook_Publisher" Type="Self.tblBook_Publisher" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblBook">
+              <PropertyRef Name="BookId" />
+            </Principal>
+            <Dependent Role="tblBook_Publisher">
+              <PropertyRef Name="BookId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_roleId">
+          <End Role="tblRole" Type="Self.tblRole" Multiplicity="1" />
+          <End Role="tblUser" Type="Self.tblUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblRole">
+              <PropertyRef Name="roleId" />
+            </Principal>
+            <Dependent Role="tblUser">
+              <PropertyRef Name="roleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LMS_DatabaseModelStoreContainer">
+          <EntitySet Name="tblAuthor" EntityType="Self.tblAuthor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblBook" EntityType="Self.tblBook" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblBook_Author" EntityType="Self.tblBook_Author" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblBook_Publisher" EntityType="Self.tblBook_Publisher" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblBookCategory" EntityType="Self.tblBookCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblPublisher" EntityType="Self.tblPublisher" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblRole" EntityType="Self.tblRole" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblUser" EntityType="Self.tblUser" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AuthorId" Association="Self.FK_AuthorId">
+            <End Role="tblAuthor" EntitySet="tblAuthor" />
+            <End Role="tblBook_Author" EntitySet="tblBook_Author" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BookCategoryId" Association="Self.FK_BookCategoryId">
+            <End Role="tblBookCategory" EntitySet="tblBookCategory" />
+            <End Role="tblBook" EntitySet="tblBook" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bookPubId" Association="Self.FK_bookPubId">
+            <End Role="tblPublisher" EntitySet="tblPublisher" />
+            <End Role="tblBook_Publisher" EntitySet="tblBook_Publisher" />
+          </AssociationSet>
+          <AssociationSet Name="FK_pubBookId" Association="Self.FK_pubBookId">
+            <End Role="tblBook" EntitySet="tblBook" />
+            <End Role="tblBook_Publisher" EntitySet="tblBook_Publisher" />
+          </AssociationSet>
+          <AssociationSet Name="FK_roleId" Association="Self.FK_roleId">
+            <End Role="tblRole" EntitySet="tblRole" />
+            <End Role="tblUser" EntitySet="tblUser" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LMS_DatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tblAuthor">
+          <Key>
+            <PropertyRef Name="AuthorId" />
+          </Key>
+          <Property Name="AuthorId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AutherName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AutherEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="AutherConatct" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tblBook_Author" Relationship="Self.FK_AuthorId" FromRole="tblAuthor" ToRole="tblBook_Author" />
+        </EntityType>
+        <EntityType Name="tblBook">
+          <Key>
+            <PropertyRef Name="BookId" />
+          </Key>
+          <Property Name="BookId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BookTitle" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="BookCategoryId" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Double" />
+          <Property Name="Edition" Type="Int32" />
+          <Property Name="Release_Year" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="isAvailable" Type="Boolean" />
+          <NavigationProperty Name="tblBookCategory" Relationship="Self.FK_BookCategoryId" FromRole="tblBook" ToRole="tblBookCategory" />
+          <NavigationProperty Name="tblBook_Publisher" Relationship="Self.FK_pubBookId" FromRole="tblBook" ToRole="tblBook_Publisher" />
+        </EntityType>
+        <EntityType Name="tblBook_Author">
+          <Key>
+            <PropertyRef Name="BookAuthorId" />
+          </Key>
+          <Property Name="BookAuthorId" Type="Int32" Nullable="false" />
+          <Property Name="BookId" Type="Int32" Nullable="false" />
+          <Property Name="AuthorId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tblAuthor" Relationship="Self.FK_AuthorId" FromRole="tblBook_Author" ToRole="tblAuthor" />
+        </EntityType>
+        <EntityType Name="tblBook_Publisher">
+          <Key>
+            <PropertyRef Name="Book_PublisherId" />
+          </Key>
+          <Property Name="Book_PublisherId" Type="Int32" Nullable="false" />
+          <Property Name="BookId" Type="Int32" Nullable="false" />
+          <Property Name="PublisherId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tblBook" Relationship="Self.FK_pubBookId" FromRole="tblBook_Publisher" ToRole="tblBook" />
+          <NavigationProperty Name="tblPublisher" Relationship="Self.FK_bookPubId" FromRole="tblBook_Publisher" ToRole="tblPublisher" />
+        </EntityType>
+        <EntityType Name="tblBookCategory">
+          <Key>
+            <PropertyRef Name="BookCategoryId" />
+          </Key>
+          <Property Name="BookCategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BookCategory" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tblBooks" Relationship="Self.FK_BookCategoryId" FromRole="tblBookCategory" ToRole="tblBook" />
+        </EntityType>
+        <EntityType Name="tblPublisher">
+          <Key>
+            <PropertyRef Name="PublisherId" />
+          </Key>
+          <Property Name="PublisherId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Publisher_Name" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PublisherAddress" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="PublisherContact" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Ratting" Type="Int32" Nullable="false" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tblBook_Publisher" Relationship="Self.FK_bookPubId" FromRole="tblPublisher" ToRole="tblBook_Publisher" />
+        </EntityType>
+        <EntityType Name="tblRole">
+          <Key>
+            <PropertyRef Name="roleId" />
+          </Key>
+          <Property Name="roleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tblUsers" Relationship="Self.FK_roleId" FromRole="tblRole" ToRole="tblUser" />
+        </EntityType>
+        <EntityType Name="tblUser">
+          <Key>
+            <PropertyRef Name="userId" />
+          </Key>
+          <Property Name="userId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ContactNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="RegistrationDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="NumOfBooks" Type="Int32" />
+          <Property Name="NumOfRe_issue" Type="Int32" />
+          <Property Name="roleId" Type="Int32" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tblRole" Relationship="Self.FK_roleId" FromRole="tblUser" ToRole="tblRole" />
+        </EntityType>
+        <Association Name="FK_AuthorId">
+          <End Role="tblAuthor" Type="Self.tblAuthor" Multiplicity="1" />
+          <End Role="tblBook_Author" Type="Self.tblBook_Author" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblAuthor">
+              <PropertyRef Name="AuthorId" />
+            </Principal>
+            <Dependent Role="tblBook_Author">
+              <PropertyRef Name="AuthorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BookCategoryId">
+          <End Role="tblBookCategory" Type="Self.tblBookCategory" Multiplicity="1" />
+          <End Role="tblBook" Type="Self.tblBook" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblBookCategory">
+              <PropertyRef Name="BookCategoryId" />
+            </Principal>
+            <Dependent Role="tblBook">
+              <PropertyRef Name="BookCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_pubBookId">
+          <End Role="tblBook" Type="Self.tblBook" Multiplicity="1" />
+          <End Role="tblBook_Publisher" Type="Self.tblBook_Publisher" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblBook">
+              <PropertyRef Name="BookId" />
+            </Principal>
+            <Dependent Role="tblBook_Publisher">
+              <PropertyRef Name="BookId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bookPubId">
+          <End Role="tblPublisher" Type="Self.tblPublisher" Multiplicity="1" />
+          <End Role="tblBook_Publisher" Type="Self.tblBook_Publisher" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPublisher">
+              <PropertyRef Name="PublisherId" />
+            </Principal>
+            <Dependent Role="tblBook_Publisher">
+              <PropertyRef Name="PublisherId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_roleId">
+          <End Role="tblRole" Type="Self.tblRole" Multiplicity="1" />
+          <End Role="tblUser" Type="Self.tblUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblRole">
+              <PropertyRef Name="roleId" />
+            </Principal>
+            <Dependent Role="tblUser">
+              <PropertyRef Name="roleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LMS_DatabaseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tblAuthors" EntityType="Self.tblAuthor" />
+          <EntitySet Name="tblBooks" EntityType="Self.tblBook" />
+          <EntitySet Name="tblBook_Author" EntityType="Self.tblBook_Author" />
+          <EntitySet Name="tblBook_Publisher" EntityType="Self.tblBook_Publisher" />
+          <EntitySet Name="tblBookCategories" EntityType="Self.tblBookCategory" />
+          <EntitySet Name="tblPublishers" EntityType="Self.tblPublisher" />
+          <EntitySet Name="tblRoles" EntityType="Self.tblRole" />
+          <EntitySet Name="tblUsers" EntityType="Self.tblUser" />
+          <AssociationSet Name="FK_AuthorId" Association="Self.FK_AuthorId">
+            <End Role="tblAuthor" EntitySet="tblAuthors" />
+            <End Role="tblBook_Author" EntitySet="tblBook_Author" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BookCategoryId" Association="Self.FK_BookCategoryId">
+            <End Role="tblBookCategory" EntitySet="tblBookCategories" />
+            <End Role="tblBook" EntitySet="tblBooks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_pubBookId" Association="Self.FK_pubBookId">
+            <End Role="tblBook" EntitySet="tblBooks" />
+            <End Role="tblBook_Publisher" EntitySet="tblBook_Publisher" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bookPubId" Association="Self.FK_bookPubId">
+            <End Role="tblPublisher" EntitySet="tblPublishers" />
+            <End Role="tblBook_Publisher" EntitySet="tblBook_Publisher" />
+          </AssociationSet>
+          <AssociationSet Name="FK_roleId" Association="Self.FK_roleId">
+            <End Role="tblRole" EntitySet="tblRoles" />
+            <End Role="tblUser" EntitySet="tblUsers" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="LMS_DatabaseModelStoreContainer" CdmEntityContainer="LMS_DatabaseEntities">
+          <EntitySetMapping Name="tblAuthors">
+            <EntityTypeMapping TypeName="LMS_DatabaseModel.tblAuthor">
+              <MappingFragment StoreEntitySet="tblAuthor">
+                <ScalarProperty Name="AuthorId" ColumnName="AuthorId" />
+                <ScalarProperty Name="AutherName" ColumnName="AutherName" />
+                <ScalarProperty Name="AutherEmail" ColumnName="AutherEmail" />
+                <ScalarProperty Name="AutherConatct" ColumnName="AutherConatct" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblBooks">
+            <EntityTypeMapping TypeName="LMS_DatabaseModel.tblBook">
+              <MappingFragment StoreEntitySet="tblBook">
+                <ScalarProperty Name="BookId" ColumnName="BookId" />
+                <ScalarProperty Name="BookTitle" ColumnName="BookTitle" />
+                <ScalarProperty Name="BookCategoryId" ColumnName="BookCategoryId" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Edition" ColumnName="Edition" />
+                <ScalarProperty Name="Release_Year" ColumnName="Release Year" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="isAvailable" ColumnName="isAvailable" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblBook_Author">
+            <EntityTypeMapping TypeName="LMS_DatabaseModel.tblBook_Author">
+              <MappingFragment StoreEntitySet="tblBook_Author">
+                <ScalarProperty Name="BookAuthorId" ColumnName="BookAuthorId" />
+                <ScalarProperty Name="BookId" ColumnName="BookId" />
+                <ScalarProperty Name="AuthorId" ColumnName="AuthorId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblBook_Publisher">
+            <EntityTypeMapping TypeName="LMS_DatabaseModel.tblBook_Publisher">
+              <MappingFragment StoreEntitySet="tblBook_Publisher">
+                <ScalarProperty Name="Book_PublisherId" ColumnName="Book_PublisherId" />
+                <ScalarProperty Name="BookId" ColumnName="BookId" />
+                <ScalarProperty Name="PublisherId" ColumnName="PublisherId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblBookCategories">
+            <EntityTypeMapping TypeName="LMS_DatabaseModel.tblBookCategory">
+              <MappingFragment StoreEntitySet="tblBookCategory">
+                <ScalarProperty Name="BookCategoryId" ColumnName="BookCategoryId" />
+                <ScalarProperty Name="BookCategory" ColumnName="BookCategory" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblPublishers">
+            <EntityTypeMapping TypeName="LMS_DatabaseModel.tblPublisher">
+              <MappingFragment StoreEntitySet="tblPublisher">
+                <ScalarProperty Name="PublisherId" ColumnName="PublisherId" />
+                <ScalarProperty Name="Publisher_Name" ColumnName="Publisher Name" />
+                <ScalarProperty Name="PublisherAddress" ColumnName="PublisherAddress" />
+                <ScalarProperty Name="PublisherContact" ColumnName="PublisherContact" />
+                <ScalarProperty Name="Ratting" ColumnName="Ratting" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblRoles">
+            <EntityTypeMapping TypeName="LMS_DatabaseModel.tblRole">
+              <MappingFragment StoreEntitySet="tblRole">
+                <ScalarProperty Name="roleId" ColumnName="roleId" />
+                <ScalarProperty Name="RoleType" ColumnName="RoleType" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblUsers">
+            <EntityTypeMapping TypeName="LMS_DatabaseModel.tblUser">
+              <MappingFragment StoreEntitySet="tblUser">
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="ContactNumber" ColumnName="ContactNumber" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="RegistrationDate" ColumnName="RegistrationDate" />
+                <ScalarProperty Name="NumOfBooks" ColumnName="NumOfBooks" />
+                <ScalarProperty Name="NumOfRe_issue" ColumnName="NumOfRe-issue" />
+                <ScalarProperty Name="roleId" ColumnName="roleId" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
